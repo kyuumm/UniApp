@@ -7,6 +7,7 @@
     >
       <image 
         class="tab-icon" 
+        :key="`home-${current}`"
         :src="current === 0 ? '/static/tabbar/home-active.png' : '/static/tabbar/home.png'"
         mode="aspectFit"
       />
@@ -19,6 +20,7 @@
     >
       <image 
         class="tab-icon" 
+        :key="`me-${current}`"
         :src="current === 1 ? '/static/tabbar/me-active.png' : '/static/tabbar/me.png'"
         mode="aspectFit"
       />
@@ -28,32 +30,68 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 
 const current = ref(0)
 
-onMounted(() => {
-  const pages = getCurrentPages()
-  const currentPage = pages[pages.length - 1]
-  const route = currentPage.route
-  
-  if (route === 'pages/index/index') {
-    current.value = 0
-  } else if (route === 'pages/me/index') {
-    current.value = 1
+const updateCurrent = () => {
+  try {
+    const pages = getCurrentPages()
+    if (pages && pages.length > 0) {
+      const currentPage = pages[pages.length - 1]
+      const route = currentPage?.route || ''
+      
+      if (route === 'pages/index/index') {
+        current.value = 0
+      } else if (route === 'pages/me/index') {
+        current.value = 1
+      }
+    }
+  } catch (e) {
+    console.log('updateCurrent error:', e)
   }
+}
+
+onMounted(() => {
+  updateCurrent()
+  // 监听页面变化事件
+  uni.$on('updateTabBar', (index) => {
+    if (typeof index === 'number') {
+      current.value = index
+    } else {
+      updateCurrent()
+    }
+  })
 })
 
 const switchTab = (index, url) => {
   if (current.value === index) return // 如果已经是当前页，不执行跳转
+  
+  // 立即更新状态，确保UI立即响应
   current.value = index
-  uni.switchTab({
-    url: url,
-    fail: (err) => {
-      console.log('switchTab失败，使用reLaunch:', err)
-      // 如果switchTab失败，使用reLaunch
-      uni.reLaunch({ url })
-    }
+  
+  // 使用nextTick确保状态更新后再执行跳转
+  nextTick(() => {
+    uni.switchTab({
+      url: url,
+      success: () => {
+        // 切换成功后再次确认状态
+        nextTick(() => {
+          updateCurrent()
+        })
+      },
+      fail: (err) => {
+        console.log('switchTab失败，使用reLaunch:', err)
+        uni.reLaunch({ 
+          url,
+          success: () => {
+            nextTick(() => {
+              updateCurrent()
+            })
+          }
+        })
+      }
+    })
   })
 }
 </script>

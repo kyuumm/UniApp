@@ -12,26 +12,26 @@
     <!-- 分组卡 -->
     <view class="section">
       <view class="sec-hd">我的内容</view>
-      <view class="item" @click="todo"><view class="ico blu">📥</view><text class="txt">我的下载</text><text class="arr">›</text></view>
-      <view class="item" @click="todo"><view class="ico warm">⭐</view><text class="txt">我的收藏</text><text class="arr">›</text></view>
+      <view class="item" @click="todo"><view class="ico" style="background:linear-gradient(135deg, rgb(244 250 255) 0%, rgb(0, 219, 222) 100%);">◆</view><text class="txt">我的下载</text><text class="arr">›</text></view>
+      <view class="item" @click="todo"><view class="ico" style="background:linear-gradient(135deg, rgb(255 249 231) 0%, rgb(255, 154, 86) 100%);">◆</view><text class="txt">我的收藏</text><text class="arr">›</text></view>
     </view>
 
     <view class="section">
       <view class="sec-hd">项目管理</view>
-      <view class="item" @click="todo"><view class="ico cyan">📊</view><text class="txt">我的项目</text><text class="arr">›</text></view>
-      <view class="item" @click="todo"><view class="ico green">📈</view><text class="txt">我的报表</text><text class="arr">›</text></view>
+      <view class="item" @click="todo"><view class="ico" style="background:linear-gradient(135deg, rgb(79, 172, 254) 0%, rgb(243 243 243) 100%);">◆</view><text class="txt">我的项目</text><text class="arr">›</text></view>
+      <view class="item" @click="todo"><view class="ico" style="background:linear-gradient(135deg, rgb(79, 172, 254) 0%, rgb(243 243 243) 100%);">◆</view><text class="txt">我的报表</text><text class="arr">›</text></view>
     </view>
 
     <view class="section">
       <view class="sec-hd">财务报销</view>
-      <view class="item" @click="goExpense"><view class="ico warm">💰</view><text class="txt">手机报销</text><text class="arr">›</text></view>
-      <view class="item" @click="todo"><view class="ico blu">🧾</view><text class="txt">电子发票</text><text class="arr">›</text></view>
-      <view class="item" @click="todo"><view class="ico green">📊</view><text class="txt">报销分析</text><text class="arr">›</text></view>
+      <view class="item" @click="goExpense"><view class="ico" style="background:linear-gradient(135deg, rgb(255 249 231) 0%, rgb(255, 154, 86) 100%);">◆</view><text class="txt">手机报销</text><text class="arr">›</text></view>
+      <view class="item" @click="todo"><view class="ico" style="background:linear-gradient(135deg, rgb(244 250 255) 0%, rgb(0, 219, 222) 100%);">◆</view><text class="txt">电子发票</text><text class="arr">›</text></view>
+      <view class="item" @click="todo"><view class="ico" style="background:linear-gradient(135deg, rgb(79, 172, 254) 0%, rgb(243 243 243) 100%);">◆</view><text class="txt">报销分析</text><text class="arr">›</text></view>
     </view>
 
     <view class="section" v-if="userInfo.role==='admin'">
       <view class="sec-hd">管理员</view>
-      <view class="item" @click="todo"><view class="ico dark">⚙️</view><text class="txt">管理后台</text><text class="arr">›</text></view>
+      <view class="item" @click="todo"><view class="ico" style="background:linear-gradient(135deg, rgb(79, 172, 254) 0%, rgb(243 243 243) 100%);">◆</view><text class="txt">管理后台</text><text class="arr">›</text></view>
     </view>
 
     <view class="pad" />
@@ -43,9 +43,15 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import CustomTabbar from '../../components/custom-tabbar/index.vue'
 const userInfo = ref({ name:'张三', role:'student' })
 const initial = computed(()=> (userInfo.value.name?.[0] || 'U'))
+
+// 页面显示时更新TabBar状态
+onShow(() => {
+  uni.$emit('updateTabBar', 1)
+})
 
 const todo = () => uni.showToast({ title:'功能开发中', icon:'none' })
 const goExpense = () => uni.navigateTo({ url:'/pages/expense/home' })
@@ -81,12 +87,7 @@ const logout = () => {
 .item{ display:flex;align-items:center;padding:26rpx 24rpx;border-bottom:1rpx solid #f3f6fa; }
 .item:last-child{ border-bottom:none; }
 .ico{ width:80rpx;height:80rpx;border-radius:18rpx; display:flex;align-items:center;justify-content:center;
-  font-size:40rpx;color:#fff; margin-right:16rpx; box-shadow:0 10rpx 24rpx rgba(0,0,0,.08); }
-.blu{  background:linear-gradient(135deg,#4facfe 0%,#00dbde 100%); }
-.cyan{ background:linear-gradient(135deg,#0ea5e9 0%,#22d3ee 100%); }
-.green{background:linear-gradient(135deg,#a8e063 0%,#56ab2f 100%); }
-.warm{ background:linear-gradient(135deg,#ffc46b 0%,#ff9a56 100%); }
-.dark{ background:linear-gradient(135deg,#1f2937 0%,#334155 100%); }
+  font-size:44rpx;color:#fff; margin-right:16rpx; box-shadow:0 10rpx 24rpx rgba(0,0,0,.08); }
 .txt{ flex:1;font-size:30rpx;color:#0f172a; }
 .arr{ color:#94a3b8; font-size:36rpx; }
 

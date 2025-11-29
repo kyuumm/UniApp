@@ -1,9 +1,10 @@
 <template>
+
   <view class="home">
     <!-- 顶部 Logo/横幅 -->
     <view class="hero">
       <view class="hero-box">
-        <image class="logo" src="/static/logo.png" mode="aspectFit" />
+  <image class="logo" :src="logoUrl" mode="aspectFit" />
         <view class="slogan">创空间 · 高校创新创业一站式平台</view>
       </view>
     </view>
@@ -61,7 +62,16 @@
 
 <script setup>
 import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import CustomTabbar from '../../components/custom-tabbar/index.vue'
+
+
+import logoUrl from '@/static/logo.png'   //logo图片
+
+// 页面显示时更新TabBar状态
+onShow(() => {
+  uni.$emit('updateTabBar', 0)
+})
 
 // 案例死数据
 const caseData = ref({
