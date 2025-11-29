@@ -1,372 +1,162 @@
 <template>
-  <view class="home-container">
-    <!-- Logo区域 -->
-    <view class="logo-section">
-      <view class="logo-placeholder">
-        <image class="logo-img" src="/static/logo.png" mode="aspectFit"></image>
+  <view class="home">
+    <!-- 顶部 Logo/横幅 -->
+    <view class="hero">
+      <view class="hero-box">
+        <image class="logo" src="/static/logo.png" mode="aspectFit" />
+        <view class="slogan">创空间 · 高校创新创业一站式平台</view>
       </view>
     </view>
 
     <!-- 快速入口 -->
-    <view class="quick-entry-section">
-      <view class="entry-card entry-left" @click="goToRepo">
-        <view class="entry-icon" style="background: linear-gradient(135deg, #88b0f6 0%, #4facfe 100%);">
-          📚
-        </view>
-        <text class="entry-text">资料下载</text>
+    <view class="grid">
+      <view class="tile" @click="goToRepo">
+        <view class="tile-icon" style="background:linear-gradient(135deg,#4facfe 0%,#00dbde 100%);">◆</view>
+        <view class="tile-text">资料下载</view>
       </view>
-      <view class="entry-card entry-right" @click="goToExpense">
-        <view class="entry-icon" style="background: linear-gradient(135deg, #fec47e 0%, #ff9a56 100%);">
-          💰
-        </view>
-        <text class="entry-text">财务报销</text>
+      <view class="tile" @click="goToExpense">
+        <view class="tile-icon" style="background:linear-gradient(135deg,#ffc46b 0%,#ff9a56 100%);">◆</view>
+        <view class="tile-text">财务报销</view>
       </view>
     </view>
 
-    <!-- 案例分析 -->
-    <view class="case-section">
-      <view class="case-card">
-        <view class="case-header">
-          <text class="case-title">案例分析</text>
-        </view>
-        <view class="case-content" @click="goToCaseDetail">
-          <view class="case-info">
-            <text class="case-name">{{ caseData.title }}</text>
-            <text class="case-desc">{{ caseData.description }}</text>
-            <view class="case-tags">
-              <text class="case-tag" v-for="tag in caseData.tags" :key="tag">{{ tag }}</text>
-            </view>
-          </view>
-        </view>
-        <view class="case-footer" @click="goToCaseDetail">
-          <text class="view-detail">查看详情 →</text>
+    <!-- 案例预览（只展示一条） -->
+    <view class="card">
+      <view class="card-hd">
+        <text class="card-title">案例分析</text>
+        <text class="link" @click="goToCaseDetail">查看详情 →</text>
+      </view>
+      <view class="card-bd" @click="goToCaseDetail">
+        <view class="case-name ellipsis-1">{{ caseData.title }}</view>
+        <view class="case-desc ellipsis-2">{{ caseData.description }}</view>
+        <view class="tags">
+          <text class="tag" v-for="t in caseData.tags" :key="t">{{ t }}</text>
         </view>
       </view>
     </view>
 
-    <!-- 项目介绍 -->
-    <view class="project-section">
-      <view class="project-header">
-        <text class="project-title">项目介绍</text>
-        <text class="project-subtitle">大模块，可向下滚动</text>
+    <!-- 项目介绍（三张竖排卡片，可点击） -->
+    <view class="card">
+      <view class="card-hd">
+        <text class="card-title">项目介绍</text>
+        <text class="sub">关键能力一览</text>
       </view>
-      <scroll-view class="project-scroll" scroll-y>
-        <view class="project-item" v-for="(item, index) in projectList" :key="index" @click="goToProjectDetail(item)">
-          <view class="project-icon-wrapper" :style="{ background: item.iconBg }">
-            <text class="project-icon">{{ item.icon }}</text>
+      <view class="proj-list">
+        <view class="proj-item" v-for="it in projectList" :key="it.type" @click="goToProjectDetail(it)">
+          <view class="proj-icon" :style="{background: it.iconBg}">{{ it.icon }}</view>
+          <view class="proj-main">
+            <view class="proj-title ellipsis-1">{{ it.title }}</view>
+            <view class="proj-desc ellipsis-2">{{ it.description }}</view>
           </view>
-          <view class="project-content">
-            <text class="project-item-title">{{ item.title }}</text>
-            <text class="project-item-desc">{{ item.description }}</text>
-          </view>
-          <view class="project-arrow">→</view>
+          <text class="arrow">›</text>
         </view>
-      </scroll-view>
+      </view>
     </view>
+
+    <view class="safe-bottom" />
   </view>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-// 案例分析数据
+// 案例死数据
 const caseData = ref({
-  title: '大学生创新创业项目成功案例',
-  description: '某团队通过平台完成项目全流程管理，最终获得省级创新创业大赛一等奖...',
-  tags: ['创新创业', '项目管理', '成功案例']
+  title: '省赛一等奖：校园碳中和协同管理平台',
+  description: '团队基于创空间完成资料沉淀、项目里程碑管理与导师协作，最终在省赛中获得一等奖…',
+  tags: ['创新创业','项目管理','低碳']
 })
 
-// 项目介绍列表
+// 三个项目卡（死数据）
 const projectList = ref([
-  {
-    title: '风险预警',
-    description: '系统根据项目进度，提前预警可能的风险',
-    icon: '⚠️',
-    iconBg: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
-    type: 'risk'
+  { type:'risk', title:'事例项目1', icon:'◆',
+    description:'项目简介一行',
+    iconBg:'linear-gradient(135deg,#4facfe 0%,#00dbde 100%)'
   },
-  {
-    title: '团队沟通',
-    description: '集成聊天工具，方便团队成员讨论',
-    icon: '💬',
-    iconBg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    type: 'communication'
+  { type:'communication', title:'事例项目2', icon:'◆',
+    description:'项目简介一行',
+    iconBg:'linear-gradient(135deg,#4facfe 0%,#00dbde 100%)'
   },
-  {
-    title: '项目评估',
-    description: '生成项目报告，评估项目成果和团队表现',
-    icon: '📊',
-    iconBg: 'linear-gradient(135deg, #daedbb 0%, #a8e063 100%)',
-    type: 'evaluation'
+  { type:'evaluation', title:'事例项目3', icon:'◆',
+    description:'项目简介一行',
+    iconBg:'linear-gradient(135deg,#4facfe 0%,#00dbde 100%)'
   }
 ])
 
-// 跳转到资料下载
-const goToRepo = () => {
-  uni.navigateTo({
-    url: '/pages/repo/list'
-  })
-}
-
-// 跳转到财务报销
-const goToExpense = () => {
-  uni.navigateTo({
-    url: '/pages/expense/home'
-  })
-}
-
-// 跳转到案例分析详情
-const goToCaseDetail = () => {
-  uni.navigateTo({
-    url: '/pages/case/detail'
-  })
-}
-
-// 跳转到项目详情
-const goToProjectDetail = (item) => {
-  uni.navigateTo({
-    url: `/pages/project/detail?type=${item.type}`
-  })
-}
+const goToRepo = () => uni.navigateTo({ url:'/pages/repo/list' })
+const goToExpense = () => uni.navigateTo({ url:'/pages/expense/home' })
+const goToCaseDetail = () => uni.navigateTo({ url:'/pages/case/detail' })
+const goToProjectDetail = (it) => uni.navigateTo({ url:`/pages/project/detail?type=${it.type}` })
 </script>
 
 <style lang="scss" scoped>
-.home-container {
-  min-height: 100vh;
-  background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
-  padding-bottom: 120rpx; // 为tabBar留出空间
-}
+// 主题色（蓝-青）
+$brand-deep:  #0f172a;
+$brand-blue:  #4facfe;
+$brand-teal:  #00dbde;
+$muted:       #64748b;
 
-// Logo区域
-.logo-section {
-  padding: 40rpx 30rpx 30rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4facfe 100%);
-  border-bottom-left-radius: 40rpx;
-  border-bottom-right-radius: 40rpx;
+.home{
+  min-height:100vh;background:linear-gradient(180deg,#e6f3ff 0%,#f7fbff 100%);
+  padding-bottom:120rpx;
 }
+.safe-bottom{ height: env(safe-area-inset-bottom); }
 
-.logo-placeholder {
-  width: 100%;
-  height: 200rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20rpx;
-  backdrop-filter: blur(10px);
-  border: 2rpx dashed rgba(255, 255, 255, 0.3);
+// 顶部横幅
+.hero{ padding: 32rpx 28rpx 24rpx; border-bottom-left-radius:36rpx;border-bottom-right-radius:36rpx;
+  background: linear-gradient(135deg,#e8f3ff 0%,#f5fbff 100%);
 }
+.hero-box{  border-radius:24rpx; padding:28rpx; 
+//box-shadow:0 0.4375rem 1.25rem rgb(112 159 210);
+  display:flex; align-items:center; gap:20rpx;
+}
+.logo{ width:120rpx; height:120rpx; border-radius:16rpx; }
+.slogan{ color:$brand-deep; font-size:28rpx; font-weight:700; }
 
-.logo-img {
-  width: 150rpx;
-  height: 150rpx;
+// 两宫格
+.grid{ display:flex; gap:20rpx; padding:24rpx 28rpx; }
+.tile{
+  flex:1;background:#fff;border-radius:24rpx;padding:30rpx 20rpx; text-align:center;
+  box-shadow:0 10rpx 28rpx rgba(31,141,242,.08); transition:transform .15s ease;
 }
+.tile:active{ transform:scale(.98); }
+.tile-icon{
+  width:96rpx;height:96rpx;border-radius:22rpx;display:flex;align-items:center;justify-content:center;
+  font-size:48rpx;margin:0 auto 14rpx; color:#fff; box-shadow:0 10rpx 24rpx rgba(0,0,0,.12);
+}
+.tile-text{ font-size:28rpx; color:$brand-deep; font-weight:600; }
 
-// 快速入口
-.quick-entry-section {
-  display: flex;
-  gap: 20rpx;
-  padding: 30rpx;
-  margin-top: -20rpx;
+// 通用卡片
+.card{ background:#fff;border-radius:24rpx;margin:0 28rpx 24rpx; box-shadow:0 14rpx 40rpx rgba(31,141,242,.08); }
+.card-hd{ display:flex;align-items:center;justify-content:space-between; padding:26rpx 26rpx 12rpx;
+  border-bottom:1rpx solid #eef2f7;
 }
+.card-title{ font-size:30rpx; font-weight:800; color:$brand-deep; }
+.sub{ font-size:24rpx; color:#94a3b8; }
+.link{ font-size:24rpx; color:#1f8df2; }
 
-.entry-card {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 24rpx;
-  padding: 40rpx 20rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.08);
-  transition: all 0.3s;
-}
+.card-bd{ padding:22rpx 26rpx 26rpx; }
+.tags{ display:flex; gap:12rpx; flex-wrap:wrap; margin-top:8rpx; }
+.tag{ font-size:22rpx; color:#1f8df2; background:rgba(31,141,242,.08); padding:6rpx 14rpx; border-radius:12rpx; }
 
-.entry-card:active {
-  transform: scale(0.95);
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.12);
-}
+.ellipsis-1{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ellipsis-2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 
-.entry-icon {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 24rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 50rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.15);
-}
+.case-name{ font-size:30rpx; font-weight:700; color:$brand-deep; margin-bottom:6rpx; }
+.case-desc{ font-size:26rpx; color:$muted; }
 
-.entry-text {
-  font-size: 28rpx;
-  color: #333;
-  font-weight: 500;
+// 项目卡竖排列表
+.proj-list{ padding: 8rpx 8rpx 14rpx; }
+.proj-item{
+  display:flex; align-items:flex-start; gap:18rpx; padding:22rpx; border-radius:20rpx; background:#f7fbff;
+  transition:background .15s; margin:12rpx 8rpx;
 }
-
-// 案例分析
-.case-section {
-  padding: 0 30rpx 30rpx;
+.proj-item:active{ background:#eef6ff; }
+.proj-icon{ width:88rpx;height:88rpx;border-radius:18rpx; color:#fff; font-size:44rpx;
+  display:flex; align-items:center; justify-content:center; box-shadow:0 10rpx 24rpx rgba(0,0,0,.1);
 }
-
-.case-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 24rpx;
-  overflow: hidden;
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.08);
-}
-
-.case-header {
-  padding: 30rpx 30rpx 20rpx;
-  border-bottom: 1rpx solid #f0f0f0;
-}
-
-.case-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-}
-
-.case-content {
-  padding: 30rpx;
-}
-
-.case-info {
-  display: flex;
-  flex-direction: column;
-  gap: 15rpx;
-}
-
-.case-name {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 10rpx;
-}
-
-.case-desc {
-  font-size: 26rpx;
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 15rpx;
-}
-
-.case-tags {
-  display: flex;
-  gap: 15rpx;
-  flex-wrap: wrap;
-}
-
-.case-tag {
-  font-size: 22rpx;
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
-  padding: 8rpx 16rpx;
-  border-radius: 12rpx;
-}
-
-.case-footer {
-  padding: 20rpx 30rpx;
-  border-top: 1rpx solid #f0f0f0;
-  text-align: right;
-}
-
-.view-detail {
-  font-size: 26rpx;
-  color: #667eea;
-  font-weight: 500;
-}
-
-// 项目介绍
-.project-section {
-  padding: 30rpx;
-  background: rgba(255, 255, 255, 0.95);
-  margin: 0 30rpx 30rpx;
-  border-radius: 24rpx;
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.08);
-}
-
-.project-header {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 30rpx;
-  padding-bottom: 20rpx;
-  border-bottom: 1rpx solid #f0f0f0;
-}
-
-.project-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 8rpx;
-}
-
-.project-subtitle {
-  font-size: 24rpx;
-  color: #999;
-}
-
-.project-scroll {
-  max-height: 800rpx;
-}
-
-.project-item {
-  display: flex;
-  align-items: center;
-  padding: 30rpx 0;
-  border-bottom: 1rpx solid #f5f5f5;
-  transition: all 0.3s;
-}
-
-.project-item:last-child {
-  border-bottom: none;
-}
-
-.project-item:active {
-  background: #f8f8f8;
-  border-radius: 16rpx;
-  padding-left: 10rpx;
-  padding-right: 10rpx;
-}
-
-.project-icon-wrapper {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 20rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 24rpx;
-  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.12);
-}
-
-.project-icon {
-  font-size: 50rpx;
-}
-
-.project-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10rpx;
-}
-
-.project-item-title {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #333;
-}
-
-.project-item-desc {
-  font-size: 24rpx;
-  color: #666;
-  line-height: 1.5;
-}
-
-.project-arrow {
-  font-size: 32rpx;
-  color: #ccc;
-  margin-left: 20rpx;
-}
+.proj-main{ flex:1; }
+.proj-title{ font-size:30rpx; font-weight:700; color:$brand-deep; margin-bottom:4rpx; }
+.proj-desc{ font-size:26rpx; color:$muted; }
+.arrow{ align-self:center; color:#94a3b8; font-size:36rpx; }
 </style>
