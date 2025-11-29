@@ -1,80 +1,63 @@
 {
-	"pages": [ 
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "登录",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/register/register",
-			"style": {
-				"navigationBarTitleText": "注册",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
-		{
-			"path": "pages/me/index",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
-		{
-			"path": "pages/repo/list",
-			"style": {
-				"navigationBarTitleText": "资料下载"
-			}
-		},
-		{
-			"path": "pages/expense/home",
-			"style": {
-				"navigationBarTitleText": "财务报销"
-			}
-		},
-		{
-			"path": "pages/case/detail",
-			"style": {
-				"navigationBarTitleText": "案例分析"
-			}
-		},
-		{
-			"path": "pages/project/detail",
-			"style": {
-				"navigationBarTitleText": "项目详情"
-			}
-		}
+	"pages": [
+	  {
+		"path": "pages/login/login",
+		"style": { "navigationBarTitleText": "登录", "navigationStyle": "custom" }
+	  },
+	  {
+		"path": "pages/register/register",
+		"style": { "navigationBarTitleText": "注册", "navigationStyle": "custom" }
+	  },
+	  {
+		"path": "pages/index/index",
+		"style": { "navigationBarTitleText": "创空间 · 首页" }
+	  },
+	  {
+		"path": "pages/me/index",
+		"style": { "navigationBarTitleText": "我的" }
+	  },
+	  {
+		"path": "pages/repo/list",
+		"style": { "navigationBarTitleText": "资料下载" }
+	  },
+	  {
+		"path": "pages/expense/home",
+		"style": { "navigationBarTitleText": "财务报销" }
+	  },
+	  {
+		"path": "pages/case/detail",
+		"style": { "navigationBarTitleText": "案例分析" }
+	  },
+	  {
+		"path": "pages/project/detail",
+		"style": { "navigationBarTitleText": "项目详情" }
+	  }
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "一机游长春",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+	  "navigationBarTextStyle": "black",
+	  "navigationBarTitleText": "创空间",
+	  "navigationBarBackgroundColor": "#F7FBFF",
+	  "backgroundColor": "#F7FBFF"
 	},
 	"tabBar": {
-		"color": "#999999",
-		"selectedColor": "#667eea",
-		"backgroundColor": "#ffffff",
-		"borderStyle": "white",
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"text": "首页",
-				"iconPath": "static/tabbar/home.png",
-				"selectedIconPath": "static/tabbar/home-active.png"
-			},
-			{
-				"pagePath": "pages/me/index",
-				"text": "我的",
-				"iconPath": "static/tabbar/me.png",
-				"selectedIconPath": "static/tabbar/me-active.png"
-			}
-		]
+	  "color": "#94a3b8",
+	  "selectedColor": "#1f8df2",
+	  "backgroundColor": "#ffffff",
+	  "borderStyle": "white",
+	  "list": [
+		{
+		  "pagePath": "pages/index/index",
+		  "text": "首页",
+		  "iconPath": "static/tabbar/home.png",
+		  "selectedIconPath": "static/tabbar/home-active.png"
+		},
+		{
+		  "pagePath": "pages/me/index",
+		  "text": "我的",
+		  "iconPath": "static/tabbar/me.png",
+		  "selectedIconPath": "static/tabbar/me-active.png"
+		}
+	  ]
 	}
-}
+  }
+  

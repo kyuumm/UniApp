@@ -36,11 +36,14 @@
 
     <view class="pad" />
     <view class="logout"><button class="btn" @click="logout">退出登录</button></view>
+    <!-- 自定义TabBar -->
+    <custom-tabbar />
   </view>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
+import CustomTabbar from '../../components/custom-tabbar/index.vue'
 const userInfo = ref({ name:'张三', role:'student' })
 const initial = computed(()=> (userInfo.value.name?.[0] || 'U'))
 
@@ -55,7 +58,7 @@ const logout = () => {
 </script>
 
 <style lang="scss" scoped>
-.me{ min-height:100vh; background:linear-gradient(180deg,#e6f3ff 0%,#f7fbff 100%); }
+.me{ min-height:100vh; background:linear-gradient(180deg,#e6f3ff 0%,#f7fbff 100%); padding-bottom:120rpx; }
 
 .banner{
   display:flex;align-items:center;gap:20rpx; padding:48rpx 28rpx 28rpx;

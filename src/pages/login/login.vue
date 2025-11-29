@@ -60,22 +60,24 @@ import { ref } from 'vue'
 
 const formData = ref({ username: '', password: '' })
 
+// pages/login/login.vue
 const handleLogin = () => {
-  if (!formData.value.username) {
-    return uni.showToast({ title: '请输入账号', icon: 'none' })
-  }
-  if (!formData.value.password) {
-    return uni.showToast({ title: '请输入密码', icon: 'none' })
-  }
-  uni.showToast({ title: '登录成功', icon: 'success' })
+  if (!formData.value.username) return uni.showToast({ title:'请输入账号', icon:'none' })
+  if (!formData.value.password) return uni.showToast({ title:'请输入密码', icon:'none' })
+
+  uni.showToast({ title:'登录成功', icon:'success' })
   setTimeout(() => {
-    uni.reLaunch({ url: '/pages/index/index' })
+    uni.switchTab({ url: '/pages/index/index' })   // ← 用 switchTab 到 tab 页
   }, 800)
 }
+
 
 const goToRegister = () => {
   uni.navigateTo({ url: '/pages/register/register' })
 }
+
+
+
 </script>
 
 <style lang="scss" scoped>

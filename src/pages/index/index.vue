@@ -11,11 +11,11 @@
     <!-- 快速入口 -->
     <view class="grid">
       <view class="tile" @click="goToRepo">
-        <view class="tile-icon" style="background:linear-gradient(135deg,#4facfe 0%,#00dbde 100%);">◆</view>
+        <view class="tile-icon" style="background:linear-gradient(135deg, rgb(244 250 255) 0%, rgb(0, 219, 222) 100%);">◆</view>
         <view class="tile-text">资料下载</view>
       </view>
       <view class="tile" @click="goToExpense">
-        <view class="tile-icon" style="background:linear-gradient(135deg,#ffc46b 0%,#ff9a56 100%);">◆</view>
+        <view class="tile-icon" style="background:linear-gradient(135deg, rgb(255 249 231) 0%, rgb(255, 154, 86) 100%);">◆</view>
         <view class="tile-text">财务报销</view>
       </view>
     </view>
@@ -54,11 +54,14 @@
     </view>
 
     <view class="safe-bottom" />
+    <!-- 自定义TabBar -->
+    <custom-tabbar />
   </view>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import CustomTabbar from '../../components/custom-tabbar/index.vue'
 
 // 案例死数据
 const caseData = ref({
@@ -69,17 +72,17 @@ const caseData = ref({
 
 // 三个项目卡（死数据）
 const projectList = ref([
-  { type:'risk', title:'事例项目1', icon:'◆',
-    description:'项目简介一行',
-    iconBg:'linear-gradient(135deg,#4facfe 0%,#00dbde 100%)'
+  { type:'risk', title:'AI 校园闲置物品匹配系统', icon:'◆',
+    description:'依托 AI 算法实现校园闲置物品供需智能匹配，提供价格评估、物流配送、信用担保等服务，开设 “以物换物” 专区，已完成校内小规模测试，匹配成功率超 85%。',
+    iconBg:'linear-gradient(135deg, rgb(79, 172, 254) 0%, rgb(243 243 243) 100%)'
   },
-  { type:'communication', title:'事例项目2', icon:'◆',
-    description:'项目简介一行',
-    iconBg:'linear-gradient(135deg,#4facfe 0%,#00dbde 100%)'
+  { type:'communication', title:'非遗文化数字化传播平台', icon:'◆',
+    description:'联合非遗传承人开发线上课程，打造 3D 交互式数字展厅，提供手作材料包购买与线下体验课预约服务，校内参与学生超 2000 人次。',
+    iconBg:'linear-gradient(135deg, rgb(79, 172, 254) 0%, rgb(243 243 243) 100%)'
   },
-  { type:'evaluation', title:'事例项目3', icon:'◆',
-    description:'项目简介一行',
-    iconBg:'linear-gradient(135deg,#4facfe 0%,#00dbde 100%)'
+  { type:'evaluation', title:'校园智慧自习室管理系统', icon:'◆',
+    description:'通过物联网技术实现自习室座位预约、实时监控，集成环境监测、自助充电等功能，落地后将座位利用率从 60% 提升至 90%',
+    iconBg:'linear-gradient(135deg, rgb(79, 172, 254) 0%, rgb(243 243 243) 100%)'
   }
 ])
 
